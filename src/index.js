@@ -9,16 +9,25 @@ if (WEBGL.isWebGLAvailable()) {
   scene.background = new THREE.Color(0x004fff)
 
   //카메라
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-  //렌더러
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  //캔버스 (렌더러)
+  const canvas = document.querySelector("#c");
+  const renderer = new THREE.WebGLRenderer({ canvas });
+  
+  //애니메이션 적용 코드
+  function render(time) {
+    time *= 0.001;  
 
-  //어디에 어떤 코드에 출력할건지
-  document.body.appendChild(renderer.domElement);
+    // cube.rotation.x = time;
+    // cube.rotation.y = time;
 
-  renderer.render(scene, camera)
+    renderer.render(scene, camera);
+
+    requestAnimationFrame(render)
+  }
+
+  requestAnimationFrame(render)
 
 } else {
   var warning = WEBGL.getWebGLErrorMessage()
